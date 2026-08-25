@@ -11,6 +11,7 @@ from .data.integration import (
 from .execution.executor import ExecutionEngine, ExecutionJournal, TradeOrder
 from .learning.memory import ExperienceMemory, ExperienceRecord
 from .learning.strategy import AdaptiveLearningStrategy
+from .optimizer.allocation import AllocationDecision, PortfolioOptimizer
 from .portfolio.models import Portfolio, Position
 from .risk.metrics import RiskMetrics, compute_risk_metrics
 from .simulation.market import MarketSimulator, simulate_price_path
@@ -42,6 +43,8 @@ __all__ = [
     "ExperienceMemory",
     "ExperienceRecord",
     "AdaptiveLearningStrategy",
+    "AllocationDecision",
+    "PortfolioOptimizer",
     "DataIntegrator",
     "DataPipeline",
     "SQLiteDataStore",
