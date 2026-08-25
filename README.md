@@ -51,5 +51,7 @@ print(path[:5])
 
 ```bash
 python -m pip install -r requirements.txt
+python -m pip install -e .
+aria --symbol AAPL --json
 python -m pytest -q
 ```
