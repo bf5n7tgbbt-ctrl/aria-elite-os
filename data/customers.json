@@ -1,0 +1,7 @@
+{
+  "records": [
+    {"id": 1, "name": "Alice", "segment": "retail"},
+    {"id": 2, "name": "Bob", "segment": "enterprise"},
+    {"id": 3, "name": "Carla", "segment": "private"}
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "records": [
+    {"order_id": 100, "customer_id": 1, "total": 99.99},
+    {"order_id": 101, "customer_id": 2, "total": 149.5},
+    {"order_id": 102, "customer_id": 3, "total": 225.0}
+  ]
+}
