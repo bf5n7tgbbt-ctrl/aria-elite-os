@@ -26,10 +26,12 @@ class BacktestEngine:
     def run(self, snapshots: Sequence[MarketSnapshot], strategy: AdaptiveTrader | Callable[[MarketSnapshot], TradeSignal]) -> BacktestResult:
         portfolio = Portfolio(cash=self.initial_capital)
         equity_curve = [float(self.initial_capital)]
-        trades = 0
+        closed_trades = 0
         wins = 0
+        latest_prices: dict[str, float] = {}
 
         for snapshot in snapshots:
+            latest_prices[snapshot.symbol] = snapshot.price
             if callable(strategy):
                 signal = strategy(snapshot)
             else:
@@ -40,27 +42,34 @@ class BacktestEngine:
                 quantity = position_value / max(snapshot.price, 1e-9)
                 portfolio.cash -= position_value
                 portfolio.add_position(snapshot.symbol, quantity, snapshot.price)
-                trades += 1
-                if signal.expected_return > 0:
-                    wins += 1
             elif signal.action == "sell":
                 position = portfolio.positions.get(snapshot.symbol)
                 if position is not None:
+                    entry_price = position.avg_price
                     sell_quantity = position.quantity
                     proceeds = sell_quantity * snapshot.price
                     portfolio.cash += proceeds
                     portfolio.remove_position(snapshot.symbol, sell_quantity)
-                    trades += 1
-                    if signal.expected_return < 0:
+                    closed_trades += 1
+                    if snapshot.price > entry_price:
                         wins += 1
 
-            current_equity = portfolio.total_equity({snapshot.symbol: snapshot.price})
+            current_equity = portfolio.total_equity(latest_prices)
             equity_curve.append(current_equity)
 
         final_equity = equity_curve[-1]
         total_return = (final_equity - self.initial_capital) / self.initial_capital
-        risk = compute_risk_metrics(equity_curve, holdings={k: v.quantity for k, v in portfolio.positions.items()}, total_equity=final_equity)
-        win_rate = wins / trades if trades else 0.0
+        holdings = {
+            symbol: position.market_value(latest_prices[symbol])
+            for symbol, position in portfolio.positions.items()
+            if symbol in latest_prices
+        }
+        risk = compute_risk_metrics(
+            equity_curve,
+            holdings=holdings,
+            total_equity=final_equity,
+        )
+        win_rate = wins / closed_trades if closed_trades else 0.0
 
         return BacktestResult(
             equity_curve=equity_curve,

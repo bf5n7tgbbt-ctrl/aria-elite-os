@@ -21,7 +21,7 @@ class MarketSimulator:
         current_price = float(base_price)
         for _ in range(steps):
             shock = self.generator.gauss(drift, volatility)
-            current_price *= 1.0 + shock
+            current_price *= max(1e-9, 1.0 + shock)
             path.append(float(current_price))
         return path
 

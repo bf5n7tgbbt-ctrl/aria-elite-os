@@ -23,6 +23,11 @@ def test_adaptive_trader_identifies_bullish_opportunity() -> None:
     assert decision.position_size > 0.0
 
 
+def test_adaptive_trader_requires_positive_capital() -> None:
+    with pytest.raises(ValueError, match="Capital"):
+        AdaptiveTrader(capital=0.0)
+
+
 def test_market_simulator_generates_price_path() -> None:
     simulator = MarketSimulator(seed=42)
     path = simulator.simulate(100.0, steps=10, drift=0.001, volatility=0.02)
@@ -30,6 +35,19 @@ def test_market_simulator_generates_price_path() -> None:
     assert len(path) == 11
     assert path[0] == 100.0
     assert all(value > 0 for value in path)
+
+
+def test_market_simulator_keeps_prices_positive_after_extreme_shock() -> None:
+    class FixedShock:
+        def gauss(self, drift: float, volatility: float) -> float:
+            return -1.1
+
+    simulator = MarketSimulator()
+    simulator.generator = FixedShock()
+
+    path = simulator.simulate(100.0, steps=1, volatility=0.1)
+
+    assert all(price > 0 for price in path)
 
 
 def test_adaptive_trader_avoids_trade_when_conditions_are_weak() -> None:

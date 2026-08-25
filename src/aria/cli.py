@@ -7,6 +7,13 @@ from aria.agent.trader import MarketSnapshot
 from aria.runtime.agent_runtime import AgentRuntime
 
 
+def _positive_capital(value: str) -> float:
+    capital = float(value)
+    if capital <= 0:
+        raise argparse.ArgumentTypeError("capital must be positive")
+    return capital
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="ARIA autonomous trading runtime")
     parser.add_argument("--symbol", default="AAPL")
@@ -16,7 +23,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--volatility", type=float, default=0.018)
     parser.add_argument("--trend", type=float, default=1.2)
     parser.add_argument("--sentiment", type=float, default=0.75)
-    parser.add_argument("--capital", type=float, default=100_000.0)
+    parser.add_argument("--capital", type=_positive_capital, default=100_000.0)
     parser.add_argument("--json", action="store_true", help="Print the report as JSON")
     return parser
 

@@ -43,6 +43,8 @@ class AdaptiveTrader:
     """Lightweight adaptive trading engine using price trend, sentiment and volatility."""
 
     def __init__(self, capital: float = 100_000.0, max_position_size: float = 0.25, risk_per_trade: float = 0.02) -> None:
+        if capital <= 0:
+            raise ValueError("Capital must be positive")
         self.capital = capital
         self.max_position_size = max_position_size
         self.risk_per_trade = risk_per_trade
