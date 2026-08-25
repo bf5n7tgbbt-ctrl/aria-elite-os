@@ -1,0 +1,20 @@
+{
+  "name": "aria-default",
+  "capital": 100000.0,
+  "risk_per_trade": 0.02,
+  "max_position_ratio": 0.25,
+  "learning_rate": 0.05,
+  "market_modes": [
+    "equities",
+    "crypto",
+    "forex",
+    "macro"
+  ],
+  "data_sources": [
+    "csv",
+    "json",
+    "api",
+    "sqlite"
+  ],
+  "simulation_steps": 30
+}
