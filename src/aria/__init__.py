@@ -8,6 +8,9 @@ from .data.integration import (
     load_csv_rows,
     load_json_rows,
 )
+from .execution.executor import ExecutionEngine, ExecutionJournal, TradeOrder
+from .learning.memory import ExperienceMemory, ExperienceRecord
+from .learning.strategy import AdaptiveLearningStrategy
 from .portfolio.models import Portfolio, Position
 from .risk.metrics import RiskMetrics, compute_risk_metrics
 from .simulation.market import MarketSimulator, simulate_price_path
@@ -33,6 +36,12 @@ __all__ = [
     "compute_risk_metrics",
     "BacktestEngine",
     "BacktestResult",
+    "ExecutionEngine",
+    "ExecutionJournal",
+    "TradeOrder",
+    "ExperienceMemory",
+    "ExperienceRecord",
+    "AdaptiveLearningStrategy",
     "DataIntegrator",
     "DataPipeline",
     "SQLiteDataStore",
