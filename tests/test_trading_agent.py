@@ -1,3 +1,5 @@
+import pytest
+
 from aria.agent.trader import AdaptiveTrader, MarketSnapshot
 from aria.simulation.market import MarketSimulator
 
@@ -46,3 +48,12 @@ def test_adaptive_trader_avoids_trade_when_conditions_are_weak() -> None:
 
     assert decision.signal.action == "hold"
     assert decision.signal.expected_return == 0.0
+
+
+def test_market_simulator_rejects_invalid_market_parameters() -> None:
+    simulator = MarketSimulator(seed=42)
+
+    with pytest.raises(ValueError, match="price"):
+        simulator.simulate(0.0)
+    with pytest.raises(ValueError, match="Volatility"):
+        simulator.simulate(100.0, volatility=-0.01)

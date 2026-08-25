@@ -1,0 +1,9 @@
+{
+  "symbol": "AAPL",
+  "price": 210.0,
+  "previous_close": 200.0,
+  "volume": 1500000,
+  "volatility": 0.018,
+  "trend": 1.2,
+  "sentiment": 0.75
+}

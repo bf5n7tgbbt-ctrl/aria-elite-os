@@ -1,3 +1,5 @@
+import pytest
+
 from aria.agent.trader import AdaptiveTrader, MarketSnapshot, TradeSignal
 from aria.backtest.engine import BacktestEngine
 from aria.portfolio.models import Portfolio
@@ -51,3 +53,21 @@ def test_backtest_engine_generates_positive_return() -> None:
     assert result.total_return > 0.0
     assert len(result.equity_curve) == len(snapshots) + 1
     assert result.win_rate >= 0.0
+
+
+def test_portfolio_rejects_invalid_position_values() -> None:
+    portfolio = Portfolio(cash=100_000.0)
+
+    with pytest.raises(ValueError, match="quantity"):
+        portfolio.add_position("AAPL", 0.0, 100.0)
+    with pytest.raises(ValueError, match="price"):
+        portfolio.add_position("AAPL", 1.0, 0.0)
+
+    portfolio.add_position("AAPL", 1.0, 100.0)
+    with pytest.raises(ValueError, match="quantity"):
+        portfolio.remove_position("AAPL", -1.0)
+
+
+def test_backtest_requires_positive_initial_capital() -> None:
+    with pytest.raises(ValueError, match="capital"):
+        BacktestEngine(initial_capital=0.0)

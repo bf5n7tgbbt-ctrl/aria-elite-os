@@ -27,6 +27,11 @@ class Portfolio:
     risk_budget: float = 0.02
 
     def add_position(self, symbol: str, quantity: float, price: float) -> Position:
+        if quantity <= 0:
+            raise ValueError("Position quantity must be positive")
+        if price <= 0:
+            raise ValueError("Position price must be positive")
+
         if symbol in self.positions:
             existing = self.positions[symbol]
             total_quantity = existing.quantity + quantity
@@ -41,6 +46,8 @@ class Portfolio:
         return position
 
     def remove_position(self, symbol: str, quantity: float) -> float:
+        if quantity <= 0:
+            raise ValueError("Position quantity must be positive")
         if symbol not in self.positions:
             return 0.0
         position = self.positions[symbol]

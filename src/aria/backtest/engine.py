@@ -19,6 +19,8 @@ class BacktestResult:
 
 class BacktestEngine:
     def __init__(self, initial_capital: float = 100_000.0) -> None:
+        if initial_capital <= 0:
+            raise ValueError("Initial capital must be positive")
         self.initial_capital = initial_capital
 
     def run(self, snapshots: Sequence[MarketSnapshot], strategy: AdaptiveTrader | Callable[[MarketSnapshot], TradeSignal]) -> BacktestResult:

@@ -10,6 +10,10 @@ class MarketSimulator:
         self.generator = random.Random(seed)
 
     def simulate(self, base_price: float, steps: int = 20, drift: float = 0.0008, volatility: float = 0.015) -> list[float]:
+        if base_price <= 0:
+            raise ValueError("Base price must be positive")
+        if volatility < 0:
+            raise ValueError("Volatility cannot be negative")
         if steps <= 0:
             return [float(base_price)]
 

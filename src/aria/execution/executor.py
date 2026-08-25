@@ -37,6 +37,8 @@ class ExecutionEngine:
     def execute(self, signal: TradeSignal, portfolio: Portfolio, price: float) -> TradeOrder | None:
         if signal.action == "hold":
             return None
+        if price <= 0:
+            raise ValueError("Execution price must be positive")
 
         if signal.action == "buy":
             notional = min(portfolio.cash, portfolio.cash * 0.25)
