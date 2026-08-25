@@ -15,6 +15,7 @@ from .optimizer.allocation import AllocationDecision, PortfolioOptimizer
 from .orchestration.manager import AgentCycleState, MonitoringDashboard, OrchestrationManager
 from .portfolio.models import Portfolio, Position
 from .risk.metrics import RiskMetrics, compute_risk_metrics
+from .runtime.agent_runtime import AgentRuntime, RuntimeReport
 from .simulation.market import MarketSimulator, simulate_price_path
 
 __version__ = "0.1.0"
@@ -49,6 +50,8 @@ __all__ = [
     "AgentCycleState",
     "MonitoringDashboard",
     "OrchestrationManager",
+    "AgentRuntime",
+    "RuntimeReport",
     "DataIntegrator",
     "DataPipeline",
     "SQLiteDataStore",
