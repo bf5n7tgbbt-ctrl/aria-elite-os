@@ -9,6 +9,9 @@ ARIA est conçu comme une IA évolutive orientée trading et analyse financière
 
 - `src/aria/agent/` : moteur d'IA et logique de décision de trading
 - `src/aria/data/` : intégration, normalisation et stockage de données internes
+- `src/aria/portfolio/` : portefeuille, positions et exposition
+- `src/aria/risk/` : métriques de risque, drawdown et allocation
+- `src/aria/backtest/` : moteur de backtesting pour simuler les performances
 - `src/aria/simulation/` : simulateurs de marché pour tester les scénarios
 - `data/` : sources de données brutes et exemples
 - `tests/` : validation de la logique de décision et du pipeline

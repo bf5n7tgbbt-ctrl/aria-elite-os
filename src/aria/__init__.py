@@ -1,4 +1,5 @@
 from .agent.trader import AdaptiveTrader, MarketSnapshot, TradeDecision, TradeSignal
+from .backtest.engine import BacktestEngine, BacktestResult
 from .data.integration import (
     DataIntegrator,
     DataPipeline,
@@ -7,6 +8,8 @@ from .data.integration import (
     load_csv_rows,
     load_json_rows,
 )
+from .portfolio.models import Portfolio, Position
+from .risk.metrics import RiskMetrics, compute_risk_metrics
 from .simulation.market import MarketSimulator, simulate_price_path
 
 __version__ = "0.1.0"
@@ -24,6 +27,12 @@ __all__ = [
     "MarketSnapshot",
     "TradeSignal",
     "TradeDecision",
+    "Portfolio",
+    "Position",
+    "RiskMetrics",
+    "compute_risk_metrics",
+    "BacktestEngine",
+    "BacktestResult",
     "DataIntegrator",
     "DataPipeline",
     "SQLiteDataStore",
