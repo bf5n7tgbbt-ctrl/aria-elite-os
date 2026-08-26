@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion - Trading Dashboard{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-box">
+        <div class="auth-header">
+            <h1>Connexion</h1>
+            <p class="auth-subtitle">Accédez à votre tableau de bord</p>
+        </div>
+        
+        {% if error %}
+        <div class="alert alert-error">
+            <span>⚠️ {{ error }}</span>
+        </div>
+        {% endif %}
+        
+        <form method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" name="username" required placeholder="Entrez votre nom d'utilisateur">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required placeholder="Entrez votre mot de passe">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Se connecter</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Vous n'avez pas de compte? <a href="{{ url_for('register') }}">Inscrivez-vous</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

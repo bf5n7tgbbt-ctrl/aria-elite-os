@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de bord - Trading Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1>📈 Tableau de Bord Trading</h1>
+            <div class="header-user">
+                <span class="username">{{ username }}</span>
+                <a href="{{ url_for('logout') }}" class="btn btn-logout">Déconnexion</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="dashboard-content">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <h3>Capital</h3>
+                    <p class="stat-value" id="capital-display">$100.00</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <h3>Positions Ouvertes</h3>
+                    <p class="stat-value" id="positions-count">0</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-info">
+                    <h3>Gains/Pertes</h3>
+                    <p class="stat-value" id="gains-display">$0.00</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-info">
+                    <h3>Portefeuille Total</h3>
+                    <p class="stat-value" id="total-portfolio">$100.00</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Positions Section -->
+        <section class="positions-section">
+            <div class="section-header">
+                <h2>Positions Actuelles</h2>
+                <button class="btn btn-primary" onclick="toggleAddPosition()">+ Ajouter une Position</button>
+            </div>
+            
+            <!-- Add Position Form -->
+            <div id="add-position-form" class="add-position-form hidden">
+                <div class="form-container">
+                    <h3>Nouvelle Position</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="symbol">Symbole</label>
+                            <input type="text" id="symbol" placeholder="Ex: AAPL" maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="shares">Nombre d'actions</label>
+                            <input type="number" id="shares" placeholder="Ex: 10" step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="entry_price">Prix d'entrée</label>
+                            <input type="number" id="entry_price" placeholder="Ex: 150.50" step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="current_price">Prix actuel</label>
+                            <input type="number" id="current_price" placeholder="Ex: 160.00" step="0.01" min="0">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="addPosition()">Ajouter</button>
+                        <button class="btn btn-secondary" onclick="toggleAddPosition()">Annuler</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Positions Table -->
+            <div class="positions-container">
+                <table class="positions-table" id="positions-table">
+                    <thead>
+                        <tr>
+                            <th>Symbole</th>
+                            <th>Actions</th>
+                            <th>Prix d'entrée</th>
+                            <th>Prix actuel</th>
+                            <th>Valeur</th>
+                            <th>Gain/Perte</th>
+                            <th>% Changement</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="positions-tbody">
+                        <tr class="empty-state">
+                            <td colspan="8">Aucune position. Commencez par en ajouter une!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Modal for editing position -->
+<div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Modifier Position</h3>
+            <button class="close-btn" onclick="closeEditModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="edit_current_price">Prix actuel</label>
+                <input type="number" id="edit_current_price" step="0.01" min="0">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="savePositionEdit()">Enregistrer</button>
+            <button class="btn btn-secondary" onclick="closeEditModal()">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
